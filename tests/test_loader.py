@@ -1,6 +1,5 @@
 """Tests for the CSV loader module."""
 
-import tempfile
 from pathlib import Path
 
 import pytest
