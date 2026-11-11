@@ -44,6 +44,12 @@ class TestLoadCSV:
         with pytest.raises(ValueError, match="empty"):
             load_csv(empty_csv)
 
+    def test_load_non_utf8_file(self, tmp_path: Path) -> None:
+        latin1_csv = tmp_path / "latin1.csv"
+        latin1_csv.write_bytes(b"name,city\nJ\xfcrgen,Berlin\n")
+        with pytest.raises(ValueError, match="UTF-8"):
+            load_csv(latin1_csv)
+
 
 class TestParseCSVText:
     def test_parse_basic_csv(self) -> None:

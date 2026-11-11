@@ -25,7 +25,10 @@ def load_csv(path: str | Path) -> tuple[list[str], list[list[str]]]:
     if not path.exists():
         raise FileNotFoundError(f"File not found: {path}")
 
-    text = path.read_text(encoding="utf-8")
+    try:
+        text = path.read_text(encoding="utf-8")
+    except UnicodeDecodeError as e:
+        raise ValueError(f"File is not valid UTF-8: {path}") from e
     return parse_csv_text(text)
 
 
